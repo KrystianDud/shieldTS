@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { glob } from 'glob';
+import fg from 'fast-glob';
 import { loadConfig } from './config/config-loader';
 import { ShieldTSConfig, SecurityIssue, ScanResult } from './config/types';
 import { scanFileForPatterns } from './scanner/pattern-scanner';
@@ -14,7 +14,7 @@ export async function scan(projectRoot: string = process.cwd()): Promise<ScanRes
   const config = loadConfig(projectRoot);
 
   // Find all TypeScript/JavaScript files
-  const files = await glob('**/*.{ts,tsx,js,jsx}', {
+  const files = await fg('**/*.{ts,tsx,js,jsx}', {
     cwd: projectRoot,
     ignore: ['node_modules/**', 'dist/**', 'build/**', '.next/**', 'coverage/**', ...(config.ignore?.files || [])],
     absolute: true
