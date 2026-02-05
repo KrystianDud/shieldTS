@@ -1,0 +1,35 @@
+{
+  "ignore": {
+    "files": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "**/tests/**",
+      "**/mocks/**"
+    ],
+    "patterns": [
+      "example_api_key",
+      "test_secret",
+      "demo_token"
+    ],
+    "lines": [
+      "src/config.ts:42",
+      "src/utils/constants.ts:15"
+    ]
+  },
+  "severity": {
+    "highEntropy": "error",
+    "knownPatterns": "error",
+    "base64Secrets": "warning"
+  },
+  "thresholds": {
+    "entropyScore": 4.5,
+    "minSecretLength": 20
+  },
+  "providers": {
+    "supabase": true,
+    "firebase": true,
+    "aws": true,
+    "stripe": true,
+    "generic": true
+  }
+}
