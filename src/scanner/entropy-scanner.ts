@@ -46,8 +46,9 @@ export function scanFileForHighEntropy(
           message: `High-entropy string detected (possible secret or API key)`,
           snippet,
           educationalContent: 'This string has high randomness, which is typical of API keys, tokens, or secrets. If this is a legitimate secret, move it to environment variables.',
-          bestPracticeLink: 'https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure'
-        });
+          bestPracticeLink: 'https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure',
+          matchedValue: stringValue
+        } as any);
       }
     }
   }

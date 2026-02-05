@@ -11,7 +11,7 @@ export function scanFileForPatterns(filePath: string, content: string): Security
     const matches = content.matchAll(new RegExp(pattern.pattern, 'g'));
 
     for (const match of matches) {
-      if (!match.index) continue;
+      if (match.index === undefined) continue;
 
       const matchedText = match[0];
 
@@ -35,8 +35,9 @@ export function scanFileForPatterns(filePath: string, content: string): Security
         snippet,
         provider: pattern.provider,
         educationalContent: pattern.educationalContent,
-        bestPracticeLink: pattern.bestPracticeLink
-      });
+        bestPracticeLink: pattern.bestPracticeLink,
+        matchedValue: matchedText
+      } as any);
     }
   }
 
