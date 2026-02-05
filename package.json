@@ -27,7 +27,9 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CLI_preview.png",
+    "html_preview.png"
   ],
   "engines": {
     "node": ">=16.0.0"
@@ -35,7 +37,7 @@
   "dependencies": {
     "typescript": "^5.0.0",
     "glob": "^10.3.0",
-    "chalk": "^4.1.2",
+    "chalk": "4.1.2",
     "commander": "^11.0.0"
   },
   "devDependencies": {

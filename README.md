@@ -4,6 +4,14 @@
 
 ShieldTS is a static analysis security tool that scans your TypeScript/JavaScript codebase for hardcoded secrets, API keys, and security vulnerabilities. It integrates seamlessly into your build process and blocks deployments when security issues are detected.
 
+## Preview
+
+### Console Output
+![CLI Preview](./CLI_preview.png)
+
+### HTML Report
+![HTML Report Preview](./html_preview.png)
+
 ## Features
 
 - ✅ **Static Analysis** - AST-based scanning using TypeScript Compiler API
@@ -103,32 +111,19 @@ Decodes Base64 strings and checks for secret-related keywords.
 
 ## Output
 
-### Console
-```
-ShieldTS Security Scan Results
+ShieldTS provides two types of reports:
 
-✗ Found 2 error(s) and 1 warning(s)
-
-src/config.ts
-  ✗ 15:3 Supabase Service Role Key: Supabase service_role JWT token detected
-    const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    Provider: supabase
-
-💡 What to do:
-  1. Review and remove hardcoded secrets from your code
-  2. Move secrets to environment variables (.env files)
-  3. Use the .shieldtsrc file to add exceptions if needed
-  4. Run the scan again to verify
-
-A detailed HTML report has been generated: shieldts-report.html
-```
+### Console Output
+Terminal-based report showing all security issues found, with file locations and severity levels. See screenshots in the Preview section above.
 
 ### HTML Report
-A detailed `shieldts-report.html` file is generated with:
+A detailed `shieldts-report.html` file is generated in your project root with:
 - Summary statistics
 - Issue details with code snippets
 - Educational content explaining why each issue is dangerous
 - Links to security best practices
+
+See screenshots in the Preview section above.
 
 ## Best Practices
 
