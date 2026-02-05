@@ -30,7 +30,19 @@ npm install --save-dev shieldts
 
 ## Quick Start
 
-### 1. Add to your build process
+### 1. Automatic Setup (Recommended)
+
+Run the init command to automatically add ShieldTS to your build script:
+
+```bash
+npx shieldts init
+```
+
+This will modify your `package.json` to run ShieldTS before every build.
+
+### 2. Manual Setup
+
+Or manually add to your build process:
 
 ```json
 {
@@ -154,8 +166,9 @@ See screenshots in the Preview section above.
    const secretKey = process.env.STRIPE_SECRET_KEY;
    ```
 
-## CLI Options
+## CLI Commands
 
+### Scan (default)
 ```bash
 shieldts [options]
 
@@ -164,6 +177,22 @@ Options:
   --no-check-env         Run regardless of NODE_ENV
   -V, --version          Output version number
   -h, --help             Display help
+```
+
+### Init - Auto-setup
+```bash
+shieldts init [options]
+
+Automatically adds ShieldTS to your package.json build script
+
+Options:
+  -p, --project <path>   Project root directory (default: current directory)
+```
+
+Example:
+```bash
+npx shieldts init
+# Modifies package.json: "build": "shieldts && <your-build-command>"
 ```
 
 ## Integration Examples

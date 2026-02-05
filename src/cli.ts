@@ -2,6 +2,7 @@
 
 import { Command } from 'commander';
 import * as path from 'path';
+import * as fs from 'fs';
 import { runShieldTS } from './index';
 
 const program = new Command();
@@ -33,6 +34,54 @@ program
       await runShieldTS(projectRoot);
     } catch (error) {
       console.error('Error running ShieldTS:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('init')
+  .description('Setup ShieldTS to run automatically before builds')
+  .option('-p, --project <path>', 'Project root directory', process.cwd())
+  .action((options) => {
+    const projectRoot = path.resolve(options.project);
+    const packageJsonPath = path.join(projectRoot, 'package.json');
+
+    if (!fs.existsSync(packageJsonPath)) {
+      console.error('[ERROR] No package.json found in', projectRoot);
+      process.exit(1);
+    }
+
+    try {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+
+      if (!packageJson.scripts) {
+        packageJson.scripts = {};
+      }
+
+      // Check if already configured
+      if (packageJson.scripts.build?.includes('shieldts')) {
+        console.log('[INFO] ShieldTS is already configured in your build script');
+        process.exit(0);
+      }
+
+      // Backup original build script
+      const originalBuild = packageJson.scripts.build || 'echo "No build script defined"';
+
+      // Prepend shieldts to build script
+      packageJson.scripts.build = `shieldts && ${originalBuild}`;
+
+      // Write back to package.json
+      fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf-8');
+
+      console.log('[SUCCESS] ShieldTS has been added to your build script!');
+      console.log('');
+      console.log('  Before:', originalBuild);
+      console.log('  After: ', packageJson.scripts.build);
+      console.log('');
+      console.log('[INFO] Now when you run "npm run build", ShieldTS will scan first.');
+      console.log('');
+    } catch (error) {
+      console.error('[ERROR] Failed to update package.json:', error);
       process.exit(1);
     }
   });

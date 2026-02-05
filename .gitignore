@@ -33,6 +33,9 @@ shieldts-report.html
 # Test directory (contains intentional vulnerabilities for testing)
 test-project/
 
+# Local development files
+scope.md
+
 # Environment
 .env
 .env.local

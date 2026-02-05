@@ -1,11 +1,19 @@
 {
   "name": "shieldts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "TypeScript security scanner that prevents builds with exposed secrets and vulnerabilities",
   "main": "dist/index.js",
   "bin": {
     "shieldts": "dist/cli.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KrystianDud/shieldTS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KrystianDud/shieldTS/issues"
+  },
+  "homepage": "https://github.com/KrystianDud/shieldTS#readme",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -36,7 +44,7 @@
   },
   "dependencies": {
     "typescript": "^5.0.0",
-    "glob": "^10.3.0",
+    "fast-glob": "^3.3.2",
     "chalk": "4.1.2",
     "commander": "^11.0.0"
   },
