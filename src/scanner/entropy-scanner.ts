@@ -21,13 +21,12 @@ export function scanFileForHighEntropy(
     const matches = content.matchAll(pattern);
 
     for (const match of matches) {
-      if (!match.index) continue;
+      if (match.index === undefined) continue;
 
       const stringValue = match[1];
 
-      // Skip if it's a placeholder or common non-secret string
-      if (isPlaceholder(stringValue)) continue;
-      if (stringValue.includes(' ') && stringValue.split(' ').length > 3) continue; // Skip sentences
+      // Skip obvious non-secrets
+      if (shouldSkipString(stringValue)) continue;
 
       // Check if high entropy
       if (isHighEntropyString(stringValue, threshold, minLength)) {
@@ -54,4 +53,33 @@ export function scanFileForHighEntropy(
   }
 
   return issues;
+}
+
+/**
+ * Check if a string should be skipped (obviously not a secret)
+ */
+function shouldSkipString(str: string): boolean {
+  // Skip if it's a known placeholder
+  if (isPlaceholder(str)) return true;
+
+  // Skip sentences (multiple words with spaces)
+  if (str.includes(' ') && str.split(' ').length > 2) return true;
+
+  // Skip file paths (contains / or \\ and common extensions)
+  if (/[\/\\]/.test(str) && /\.(tsx?|jsx?|css|s?css|json|html?|svg|png|jpg|gif|woff2?|ttf|eot)/.test(str)) return true;
+
+  // Skip relative/absolute import paths
+  if (str.startsWith('./') || str.startsWith('../') || str.startsWith('@/')) return true;
+
+  // Skip well-known URLs and namespaces
+  if (str.includes('w3.org') || str.includes('xmlns') || str.includes('http://') || str.includes('https://')) return true;
+
+  // Skip common CSS/HTML patterns
+  if (str.includes('viewBox') || str.includes('xmlns')) return true;
+
+  // Skip strings that are mostly lowercase with common words
+  const commonWords = ['component', 'navbar', 'styles', 'module', 'page', 'layout', 'import', 'export'];
+  if (commonWords.some(word => str.toLowerCase().includes(word))) return true;
+
+  return false;
 }
