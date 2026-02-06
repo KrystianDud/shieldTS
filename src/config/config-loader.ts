@@ -14,8 +14,8 @@ const DEFAULT_CONFIG: ShieldTSConfig = {
     base64Secrets: 'warning'
   },
   thresholds: {
-    entropyScore: 3.5,
-    minSecretLength: 20
+    entropyScore: 4.0,
+    minSecretLength: 24
   },
   providers: {
     supabase: true,
